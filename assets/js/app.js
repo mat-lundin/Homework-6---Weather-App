@@ -1,14 +1,14 @@
 var apiKey = 'c6e306e42b1bc0ce9623a1e6787fad9a'
 var cityName = '';
-var date = '';
-var icon = '';
+// var date = '';
+// var icon = '';
 // var temp = '';
 // var weatherCond = '';
 // var humidity = '';
 // var wind = '';
 var lat = '';
 var lon = '';
-var uv = '';
+// var uv = '';
 var cityEl = document.getElementById('city')
 var searchBtn = document.getElementById('searchbtn')
 
@@ -25,25 +25,7 @@ function onButton(source){
 
 };
 
-// GIVEN a weather dashboard with form inputs
-// WHEN I search for a city - input, submit, add to request Url
-searchBtn.addEventListener('click', function(event){
-    event.preventDefault();
-    // console.log('event target = '+event.target);
-    // console.log('search button = '+ searchBtn);
-    if (event.target === searchBtn){
-        // console.log(event.target);
-        cityName = cityEl.value;
-        // console.log('cityName = '+cityName)
-        // getCurrentData();
-        // getDailyData();
-        // searchHist();
-        onButton('search');
-    } else{
-        // console.log('nope');
-        return;
-    };
-});
+
 
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
 // fetch and object traversal
@@ -176,6 +158,26 @@ function searchHist(){
         document.getElementById('history').append(histButton);
     }
 };
+
+// GIVEN a weather dashboard with form inputs
+// WHEN I search for a city - input, submit, add to request Url
+searchBtn.addEventListener('click', function(event){
+    event.preventDefault();
+    // console.log('event target = '+event.target);
+    // console.log('search button = '+ searchBtn);
+    if (event.target === searchBtn){
+        // console.log(event.target);
+        cityName = cityEl.value;
+        // console.log('cityName = '+cityName)
+        // getCurrentData();
+        // getDailyData();
+        // searchHist();
+        onButton('search');
+    } else{
+        // console.log('nope');
+        return;
+    };
+});
 
 document.getElementById('history').addEventListener('click',function(event){
     // console.log(event.target);
