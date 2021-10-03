@@ -62,7 +62,7 @@ function parseCurrent (data) {
 
     // lat = data.coord.lat;
     // lon = data.coord.lon;
-    console.log(data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed)
+    // console.log(data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed)
     return [data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed];
 
 };
