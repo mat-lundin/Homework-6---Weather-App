@@ -12,6 +12,12 @@ var uv = '';
 var cityEl = document.getElementById('city')
 var searchBtn = document.getElementById('searchbtn')
 
+//call all data functions when a city is selected via search or the history
+function onButton(){
+    getCurrentData();
+    getDailyData();
+    searchHist();
+};
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city - input, submit, add to request Url
@@ -23,11 +29,12 @@ searchBtn.addEventListener('click', function(event){
         // console.log(event.target);
         cityName = cityEl.value;
         // console.log('cityName = '+cityName)
-        getCurrentData();
-        getDailyData();
-        searchHist();
+        // getCurrentData();
+        // getDailyData();
+        // searchHist();
+        onButton();
     } else{
-        console.log('nope');
+        // console.log('nope');
         return;
     };
 });
@@ -148,7 +155,19 @@ function searchHist(){
     // <button value='${cityName}'>${cityName}</button>
     // `
     var histButton = document.createElement('button');
+    histButton.setAttribute('class','hist')
     histButton.value = cityName;
     histButton.textContent = cityName;
     document.getElementById('history').append(histButton);
+};
+
+document.getElementById('history').addEventListener('click',function(event){
+    // console.log(event.target);
+    if (event.target.matches('button')){
+        // console.log('worked')
+        cityName = event.target.value;
+        console.log(cityName);
+        getCurrentData();
+        getDailyData();
 }
+})
