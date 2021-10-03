@@ -25,6 +25,7 @@ searchBtn.addEventListener('click', function(event){
         // console.log('cityName = '+cityName)
         getCurrentData();
         getDailyData();
+        searchHist();
     } else{
         console.log('nope');
         return;
@@ -143,7 +144,11 @@ function renderDaily(dailyData){
 // THEN I am again presented with current and future conditions for that city
 // add DOM element with a link to the function that dipslays weather each time the button is clicked. probably no localStorage needed
 function searchHist(){
-    document.getElementById('history').innerHTML(`
-    <button value='${cityName}'>${cityName}</button>
-    `)
+    // document.getElementById('history').innerHTML=`
+    // <button value='${cityName}'>${cityName}</button>
+    // `
+    var histButton = document.createElement('button');
+    histButton.value = cityName;
+    histButton.textContent = cityName;
+    document.getElementById('history').append(histButton);
 }
