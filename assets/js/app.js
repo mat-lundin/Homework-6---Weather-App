@@ -85,10 +85,10 @@ function renderCurrent(temp,weatherCond,humidity,wind){
     currentCardBodyEl.innerHTML = `
     <h5 class="card-title">${cityName}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Current Weather</h6>
-          <p class="card-text">Temp: ${temp}</p>
+          <p class="card-text">Temp: ${temp}&deg F</p>
           <p class="card-text">Conditions: ${weatherCond}</p>
           <p class="card-text">Humidity: ${humidity}</p>
-          <p class="card-text">Wind Speed: ${wind}</p>
+          <p class="card-text">Wind Speed: ${wind} mph</p>
     `;
     document.getElementById('currentContainer').append(currentCardEl);
     currentCardEl.append(currentCardBodyEl)
