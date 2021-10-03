@@ -8,17 +8,19 @@ var humidity = '';
 var wind = '';
 var uV = '';
 var cityEl = document.getElementById('city')
-var searchBtn = document.getElementById('search')
-var currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
+var searchBtn = document.getElementById('searchbtn')
+
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city - input, submit, add to request Url
 searchBtn.addEventListener('click', function(event){
     event.preventDefault();
-    console.log(event.target,searchBtn);
+    console.log('event target = '+event.target);
+    console.log('search button = '+ searchBtn);
     if (event.target === searchBtn){
         console.log(event.target);
-        cityName = cityEl.textContent;
+        cityName = cityEl.value;
+        console.log('cityName = '+cityName)
         getData();
     } else{
         console.log('nope');
@@ -29,6 +31,7 @@ searchBtn.addEventListener('click', function(event){
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
 // fetch and object traversal
 function getData(){
+    var currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`
     fetch(currentUrl)
     .then(function (response) {
         if (response.ok) {
