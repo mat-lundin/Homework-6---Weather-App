@@ -72,9 +72,14 @@ function parseCurrent (data) {
 // DOM manipulation
 // need to add date using moment?
 function renderCurrent(temp,weatherCond,humidity,wind){
+    if (document.getElementById('currentCard')){
+        console.log('worked')
+        document.getElementById('currentCard').remove();
+    };
     var currentCardEl = document.createElement('div');
     currentCardEl.setAttribute('class','card');
-    currentCardEl.setAttribute('style', 'width: 18rem')
+    currentCardEl.setAttribute('style', 'width: 18rem');
+    currentCardEl.setAttribute('id','currentCard');
     var currentCardBodyEl = document.createElement('div');
     currentCardBodyEl.setAttribute('class','card-body');
     currentCardBodyEl.innerHTML = `
