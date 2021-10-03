@@ -1,12 +1,13 @@
-var requestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}`;
 var apiKey = 'c6e306e42b1bc0ce9623a1e6787fad9a'
 var cityName = '';
 var date = '';
 var icon = '';
-var temp = '';
-var weatherCond = '';
-var humidity = '';
-var wind = '';
+// var temp = '';
+// var weatherCond = '';
+// var humidity = '';
+// var wind = '';
+var lat = '';
+var lon = '';
 var uv = '';
 var cityEl = document.getElementById('city')
 var searchBtn = document.getElementById('searchbtn')
@@ -22,7 +23,8 @@ searchBtn.addEventListener('click', function(event){
         // console.log(event.target);
         cityName = cityEl.value;
         // console.log('cityName = '+cityName)
-        getData();
+        getCurrentData();
+        getDailyData();
     } else{
         console.log('nope');
         return;
@@ -31,14 +33,14 @@ searchBtn.addEventListener('click', function(event){
 
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
 // fetch and object traversal
-function getData(){
+function getCurrentData(){
     var currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`
     fetch(currentUrl)
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data){
-                console.log(data);
-                parseData(data);
+                // console.log(data);
+                parseCurrent(data);
                 // return the parsed data as arguments for render
                 // renderCurrent(parseData())
             });
@@ -49,23 +51,29 @@ function getData(){
 };
 
 
-function parseData (data) {
-    temp = data.main.temp;
+//parse data for the renderCurrent function to put on the page, and get lat/lon while we're in there
+function parseCurrent (data) {
+    // temp = data.main.temp;
     // console.log(temp)
-    weatherCond = data.weather[0].description;
+    // weatherCond = data.weather[0].description;
     // console.log(weatherCond)
-    humidity = data.main.humidity;
+    // humidity = data.main.humidity;
     // console.log(humidity)
-    wind = data.wind.speed
+    // wind = data.wind.speed
     // console.log(wind)
     //UV index not in the current weather API!
 
-}
+    lat = data.coord.lat;
+    lon = data.coord.lon;
+
+    return data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed;
+
+};
 
 // WHEN I view current weather conditions for that city
 // THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
 // DOM manipulation
-function renderCurrent(){
+function renderCurrent(temp,weatherCond,humidity,wind){
 
 }
 
@@ -78,7 +86,64 @@ function renderCurrent(){
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 // more DOM element creation, get icons from API
 
+function getDailyData(){
+    var dailyUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`;
+    fetch(dailyUrl)
+    .then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data){
+                // console.log(data);
+                parseDaily(data);
+                // return the parsed data as arguments for render
+                // renderDaily(parseDaily())
+            });
+        } else {
+            console.error(response.statusText)
+        };
+    });
 
+};
+
+// put the daily values into an array of objects! Start at index 1 because the first day is repeated in the api
+function parseDaily(data) {
+   var forecast = [];
+
+   for(var i= 1; i < 5; i++) {
+       forecast.push(
+                   {
+            date: data.list[i].dt_txt,
+            icon: data.list[i].weather.icon,
+            temp: data.list[i].main.temp,
+            wind: data.list[i].wind.speed,
+            humidity: data.list[i].main.humidity
+        }
+       );
+   };
+   
+   console.log('forecast = '+forecast[1].date);
+   
+   
+    // var forecast = [
+    //     {
+    //         date: data.list[0].dt_txt,
+    //         icon: data.list[0].weather.icon,
+    //         temp: data.list[0].main.temp,
+    //         wind: data.list[0].wind.speed,
+    //         humidity: data.list[0].main.humidity
+    //     }
+    // ]
+
+};
+
+//take object array and probably dynamically create html elements
+function renderDaily(dailyData){
+
+};
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 // add DOM element with a link to the function that dipslays weather each time the button is clicked. probably no localStorage needed
+function searchHist(){
+    document.getElementById('history').innerHTML(`
+    <button value='${cityName}'>${cityName}</button>
+    `)
+}
