@@ -13,10 +13,16 @@ var cityEl = document.getElementById('city')
 var searchBtn = document.getElementById('searchbtn')
 
 //call all data functions when a city is selected via search or the history
-function onButton(){
-    getCurrentData();
-    getDailyData();
-    searchHist();
+function onButton(source){
+    if (source = 'search') {
+        getCurrentData();
+        getDailyData();
+        searchHist();
+    } else {
+        getCurrentData();
+        getDailyData();
+    }
+
 };
 
 // GIVEN a weather dashboard with form inputs
@@ -32,7 +38,7 @@ searchBtn.addEventListener('click', function(event){
         // getCurrentData();
         // getDailyData();
         // searchHist();
-        onButton();
+        onButton('search');
     } else{
         // console.log('nope');
         return;
@@ -145,7 +151,7 @@ function parseDaily(data) {
 
 //take object array and probably dynamically create html elements
 function renderDaily(dailyData){
-
+    var iconUrl = `http://openweathermap.org/img/wn/${forecast[0].icon}@2x.png`
 };
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
@@ -154,20 +160,31 @@ function searchHist(){
     // document.getElementById('history').innerHTML=`
     // <button value='${cityName}'>${cityName}</button>
     // `
-    var histButton = document.createElement('button');
-    histButton.setAttribute('class','hist')
-    histButton.value = cityName;
-    histButton.textContent = cityName;
-    document.getElementById('history').append(histButton);
+    console.log(document.getElementsByClassName('hist'))
+    var histCities = [];
+    var histBtns = document.getElementsByClassName('hist');
+    for (var i = 0;i<histBtns.length;i++){
+        histCities.push(histBtns[i].value)
+    }
+    console.log(histCities + ' = histCities');
+
+    if (!histCities.includes(cityName)){
+        var histButton = document.createElement('button');
+        histButton.setAttribute('class','hist')
+        histButton.value = cityName;
+        histButton.textContent = cityName;
+        document.getElementById('history').append(histButton);
+    }
 };
 
 document.getElementById('history').addEventListener('click',function(event){
     // console.log(event.target);
+
+    // histBtns.value.includes()
     if (event.target.matches('button')){
         // console.log('worked')
         cityName = event.target.value;
         console.log(cityName);
-        getCurrentData();
-        getDailyData();
-}
-})
+        onButton('history');
+};
+});
