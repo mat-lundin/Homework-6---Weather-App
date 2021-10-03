@@ -1,4 +1,4 @@
-var apiKey = 'c6e306e42b1bc0ce9623a1e6787fad9a'
+var apiKey = 'c6e306e42b1bc0ce9623a1e6787fad9a';
 var cityName = '';
 // var date = '';
 // var icon = '';
@@ -9,8 +9,8 @@ var cityName = '';
 var lat = '';
 var lon = '';
 // var uv = '';
-var cityEl = document.getElementById('city')
-var searchBtn = document.getElementById('searchbtn')
+var cityEl = document.getElementById('city');
+var searchBtn = document.getElementById('searchbtn');
 
 //call all data functions when a city is selected via search or the history
 function onButton(source){
@@ -37,8 +37,9 @@ function getCurrentData(){
             response.json().then(function (data){
                 // console.log(data);
                 parseCurrent(data);
+                console.log('from getCurrentData, parsed = '+parseCurrent(data))
                 // return the parsed data as arguments for render
-                // renderCurrent(parseData())
+                renderCurrent(parseCurrent(data)[0],parseCurrent(data)[1],parseCurrent(data)[2],parseCurrent(data)[3])
             });
         } else {
             console.error(response.statusText)
@@ -59,19 +60,36 @@ function parseCurrent (data) {
     // console.log(wind)
     //UV index not in the current weather API!
 
-    lat = data.coord.lat;
-    lon = data.coord.lon;
-
-    return data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed;
+    // lat = data.coord.lat;
+    // lon = data.coord.lon;
+    console.log(data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed)
+    return [data.main.temp,data.weather[0].description,data.main.humidity,data.wind.speed];
 
 };
 
 // WHEN I view current weather conditions for that city
 // THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
 // DOM manipulation
+// need to add date using moment?
 function renderCurrent(temp,weatherCond,humidity,wind){
+    var currentCardEl = document.createElement('div');
+    currentCardEl.setAttribute('class','card');
+    currentCardEl.setAttribute('style', 'width: 18rem')
+    var currentCardBodyEl = document.createElement('div');
+    currentCardBodyEl.setAttribute('class','card-body');
+    currentCardBodyEl.innerHTML = `
+    <h5 class="card-title">${cityName}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Current Weather</h6>
+          <p class="card-text">Temp: ${temp}</p>
+          <p class="card-text">Conditions: ${weatherCond}</p>
+          <p class="card-text">Humidity: ${humidity}</p>
+          <p class="card-text">Wind Speed: ${wind}</p>
+    `;
+    document.getElementById('currentContainer').append(currentCardEl);
+    currentCardEl.append(currentCardBodyEl)
+    // currentCardBodyEl.append(currentCardContent);
 
-}
+};
 
 // WHEN I view the UV index
 // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
