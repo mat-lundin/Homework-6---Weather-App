@@ -159,8 +159,12 @@ function parseForecast(data) {
 //take object array and probably dynamically create html elements
 function renderForecast(forecastData){
     console.log(forecastData);
+    if (document.getElementById('card-row')){
+        document.getElementById('card-row').remove()
+    };
     var cardRow = document.createElement('div');
     cardRow.setAttribute('class', 'row');
+    cardRow.setAttribute('id', 'card-row')
     forecastData.forEach(function(item, index){
         var iconUrl = `http://openweathermap.org/img/wn/${item.icon}@2x.png`
         var foreCardEl = document.createElement('div');
