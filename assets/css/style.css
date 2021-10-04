@@ -1,3 +1,7 @@
 .hist {
     display:block;
 }
+
+#forecastContainer {
+    display: inline;
+}

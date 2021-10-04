@@ -127,7 +127,7 @@ function getForecastData(){
 function parseForecast(data) {
    var forecast = [];
 
-   for(var i= 1; i < 5; i++) {
+   for(var i= 1; i < 6; i++) {
        forecast.push(
                    {
             date: data.list[i].dt_txt,
@@ -158,8 +158,28 @@ function parseForecast(data) {
 //take object array and probably dynamically create html elements
 function renderForecast(forecastData){
     console.log(forecastData);
+    forecastData.forEach(function(item, index){
+        var iconUrl = `http://openweathermap.org/img/wn/${item.icon}@2x.png`
+        var foreCardEl = document.createElement('div');
+        foreCardEl.setAttribute('class','card');
+        foreCardEl.setAttribute('style', 'width: 18rem');
+        foreCardEl.setAttribute('id',`forecastCard${index}`);
+        var foreCardBodyEl = document.createElement('div');
+        foreCardBodyEl.setAttribute('class','card-body');
+        foreCardBodyEl.innerHTML = `
+        <h5 class="card-title">${item.date}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Forecast</h6>
+              <p class="card-text">Temp: ${item.temp}&deg F</p>
+              <p class="card-text">Humidity: ${item.humidity}</p>
+              <p class="card-text">Wind Speed: ${item.wind} mph</p>
+              <img src="${iconUrl}>
+        `;
+        document.getElementById('forecastContainer').append(foreCardEl);
+        foreCardEl.append(foreCardBodyEl);
+    })
 
-    var iconUrl = `http://openweathermap.org/img/wn/${forecastData[0].icon}@2x.png`
+
+    
 };
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
