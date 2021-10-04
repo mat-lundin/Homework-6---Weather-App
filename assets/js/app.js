@@ -168,7 +168,7 @@ function renderForecast(forecastData){
         foreCardBodyEl.setAttribute('class','card-body');
         foreCardBodyEl.innerHTML = `
         <h5 class="card-title">${item.date}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Forecast</h6>
+              <h6 class="card-subtitle mb-2 text-muted">${cityName} Forecast</h6>
               <p class="card-text">Temp: ${item.temp}&deg F</p>
               <p class="card-text">Humidity: ${item.humidity}</p>
               <p class="card-text">Wind Speed: ${item.wind} mph</p>
