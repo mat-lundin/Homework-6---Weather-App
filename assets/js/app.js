@@ -16,11 +16,11 @@ var searchBtn = document.getElementById('searchbtn');
 function onButton(source){
     if (source = 'search') {
         getCurrentData();
-        getDailyData();
+        getForecastData();
         searchHist();
     } else {
         getCurrentData();
-        getDailyData();
+        getForecastData();
     }
 
 };
@@ -36,8 +36,8 @@ function getCurrentData(){
         if (response.ok) {
             response.json().then(function (data){
                 // console.log(data);
-                parseCurrent(data);
-                console.log('from getCurrentData, parsed = '+parseCurrent(data))
+                // parseCurrent(data);
+                // console.log('from getCurrentData, parsed = '+parseCurrent(data))
                 // return the parsed data as arguments for render
                 renderCurrent(parseCurrent(data)[0],parseCurrent(data)[1],parseCurrent(data)[2],parseCurrent(data)[3])
             });
@@ -105,16 +105,16 @@ function renderCurrent(temp,weatherCond,humidity,wind){
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 // more DOM element creation, get icons from API
 
-function getDailyData(){
-    var dailyUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`;
-    fetch(dailyUrl)
+function getForecastData(){
+    var ForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`;
+    fetch(ForecastUrl)
     .then(function (response) {
         if (response.ok) {
-            response.json().then(function (data){
+            response.json().then(function (forecastData){
                 // console.log(data);
-                parseDaily(data);
+                // parseForecast(forecastData);
                 // return the parsed data as arguments for render
-                // renderDaily(parseDaily())
+                renderForecast(parseForecast(forecastData))
             });
         } else {
             console.error(response.statusText)
@@ -123,8 +123,8 @@ function getDailyData(){
 
 };
 
-// put the daily values into an array of objects! Start at index 1 because the first day is repeated in the api
-function parseDaily(data) {
+// put the Forecast values into an array of objects! Start at index 1 because the first day is repeated in the api
+function parseForecast(data) {
    var forecast = [];
 
    for(var i= 1; i < 5; i++) {
@@ -140,6 +140,7 @@ function parseDaily(data) {
    };
    
    console.log('forecast = '+forecast[1].date);
+   return forecast;
    
    
     // var forecast = [
@@ -155,8 +156,10 @@ function parseDaily(data) {
 };
 
 //take object array and probably dynamically create html elements
-function renderDaily(dailyData){
-    var iconUrl = `http://openweathermap.org/img/wn/${forecast[0].icon}@2x.png`
+function renderForecast(forecastData){
+    console.log(forecastData);
+
+    var iconUrl = `http://openweathermap.org/img/wn/${forecastData[0].icon}@2x.png`
 };
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
@@ -193,7 +196,7 @@ searchBtn.addEventListener('click', function(event){
         cityName = cityEl.value;
         // console.log('cityName = '+cityName)
         // getCurrentData();
-        // getDailyData();
+        // getForecastData();
         // searchHist();
         onButton('search');
     } else{
