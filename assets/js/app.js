@@ -125,6 +125,7 @@ function getForecastData(){
 
 // put the Forecast values into an array of objects! Start at index 1 because the first day is repeated in the api
 // there are 5 hourly forecasts per day, need to either present them all somehow or get average of all these data points
+// https://stackoverflow.com/questions/29544371/finding-the-average-of-an-array-using-js
 function parseForecast(data) {
    var forecast = [];
 
