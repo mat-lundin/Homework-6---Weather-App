@@ -128,6 +128,7 @@ function getForecastData(){
 // https://stackoverflow.com/questions/29544371/finding-the-average-of-an-array-using-js
 // set var i back to 0
 // could also fake it by replacing i++ with i*5
+//list is an array of objects; we need an array of averages per date; a var for each date and do an if within forEach? 
 function parseForecast(data) {
    var forecast = [];
 
