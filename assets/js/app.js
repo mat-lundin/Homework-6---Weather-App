@@ -35,7 +35,7 @@ function getCurrentData(){
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data){
-                // console.log(data);
+                // console.log('current = '+data);
                 // parseCurrent(data);
                 // console.log('from getCurrentData, parsed = '+parseCurrent(data))
                 // return the parsed data as arguments for render
@@ -106,12 +106,12 @@ function renderCurrent(temp,weatherCond,humidity,wind){
 // more DOM element creation, get icons from API
 
 function getForecastData(){
-    var ForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`;
-    fetch(ForecastUrl)
+    var forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`;
+    fetch(forecastUrl)
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (forecastData){
-                // console.log(data);
+                console.log('forecast data = '+forecastData);
                 // parseForecast(forecastData);
                 // return the parsed data as arguments for render
                 renderForecast(parseForecast(forecastData))
@@ -128,10 +128,11 @@ function parseForecast(data) {
    var forecast = [];
 
    for(var i= 1; i < 6; i++) {
+       console.log(data);
        forecast.push(
                    {
             date: data.list[i].dt_txt,
-            icon: data.list[i].weather.icon,
+            icon: data.list[i].weather[0].icon,
             temp: data.list[i].main.temp,
             wind: data.list[i].wind.speed,
             humidity: data.list[i].main.humidity
@@ -158,6 +159,7 @@ function parseForecast(data) {
 //take object array and probably dynamically create html elements
 function renderForecast(forecastData){
     console.log(forecastData);
+    var cardRow = document.createElement('div').setAttribute('class', 'row');
     forecastData.forEach(function(item, index){
         var iconUrl = `http://openweathermap.org/img/wn/${item.icon}@2x.png`
         var foreCardEl = document.createElement('div');
@@ -174,7 +176,8 @@ function renderForecast(forecastData){
               <p class="card-text">Wind Speed: ${item.wind} mph</p>
               <img src="${iconUrl}">
         `;
-        document.getElementById('forecastContainer').append(foreCardEl);
+        document.getElementById('forecastContainer').append(cardRow);
+        cardRow.append(foreCardEl);
         foreCardEl.append(foreCardBodyEl);
     })
 
