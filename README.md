@@ -6,6 +6,8 @@ When the page loads, a search bar appears with placeholder text instructing the 
 
 Once a city is searched, a button with that city appears below in the History section. The user can click any of these previous searches to bring up that city's data. If the user searches the same city twice using the text input, only one button will appear for that city.
 
+When the user leaves the page and comes back, the search history from previous sessions is loaded automatically.
+
 ## Future Enhancements
 The developer would like to show the average of all the forecasted weather for each day, instead of displaying the midnight forecast for each day.
 
