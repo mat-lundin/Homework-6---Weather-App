@@ -132,7 +132,7 @@ function getForecastData(){
 function parseForecast(data) {
    var forecast = [];
 
-   for(var i= 1; i < 6; i++) {
+   for(var i= 0; i <= 32; i=i+8) {
        console.log(data);
        forecast.push(
                    {
@@ -173,9 +173,9 @@ function renderForecast(forecastData){
     forecastData.forEach(function(item, index){
         var iconUrl = `http://openweathermap.org/img/wn/${item.icon}@2x.png`
         var foreCardEl = document.createElement('div');
-        foreCardEl.setAttribute('class','card col-2');
+        foreCardEl.setAttribute('class','card col-2 forecastCard');
         foreCardEl.setAttribute('style', 'width: 18rem');
-        foreCardEl.setAttribute('id',`forecastCard${index}`);
+        // foreCardEl.setAttribute('id',`forecastCard${index}`);
         var foreCardBodyEl = document.createElement('div');
         foreCardBodyEl.setAttribute('class','card-body');
         foreCardBodyEl.innerHTML = `
