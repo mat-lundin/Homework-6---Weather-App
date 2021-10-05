@@ -11,6 +11,7 @@ var lon = '';
 // var uv = '';
 var cityEl = document.getElementById('city');
 var searchBtn = document.getElementById('searchbtn');
+var histStorage = JSON.parse(localStorage.getItem('history')) || [];
 
 //call all data functions when a city is selected via search or the history
 function onButton(source){
@@ -215,8 +216,26 @@ function searchHist(){
         histButton.value = cityName;
         histButton.textContent = cityName;
         document.getElementById('history').append(histButton);
+        storeHist(cityName);
     }
 };
+
+// store history buttons
+function storeHist(name){
+    histStorage.push(name);
+    console.log(histStorage);
+    localStorage.setItem('history',JSON.stringify(histStorage));
+};
+
+//render history buttons from local storage
+histStorage.forEach(function(item,index){
+    var histButton = document.createElement('button');
+    histButton.setAttribute('class','hist')
+    histButton.value = item;
+    histButton.textContent = item;
+    document.getElementById('history').append(histButton);
+});
+
 
 // GIVEN a weather dashboard with form inputs
 // WHEN I search for a city - input, submit, add to request Url
